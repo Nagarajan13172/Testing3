@@ -5,7 +5,6 @@ import ProductList from './components/ProductList'
 import SearchBar from './components/SearchBar'
 import CatergoryFilter from './components/CatergoryFilter'
 import Pagination from './components/Pagination'
-import useDebounce from './hook/useDebounce'
 
 
 function App() {
@@ -14,7 +13,6 @@ function App() {
   const [category, setCategory] = useState("all")
   const [currentPage, setCurrentPage] = useState(1)
   const [error , setError] = useState(null)
-  const debouncedSearch = useDebounce(search, 1000)
 
   const pagePerProduct = 10;
 
@@ -38,12 +36,11 @@ function App() {
 
   useEffect(() => {
     setCurrentPage(1)
-    console.log(debouncedSearch)
-  }, [debouncedSearch, category])
+  }, [search, category])
 
 
   const filteredProduct = useMemo(() => {
-    return products.filter((product) => product.title.toLowerCase().includes(debouncedSearch.toLowerCase())).filter((product) => {
+    return products.filter((product) => product.title.toLowerCase().includes(search.toLowerCase())).filter((product) => {
       if(category === 'all') 
         return true;
 
